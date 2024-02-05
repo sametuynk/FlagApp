@@ -7,6 +7,8 @@ import android.os.Bundle;
 
 import com.example.flagapp.databinding.ActivityMainBinding;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -17,9 +19,21 @@ public class MainActivity extends AppCompatActivity {
         binding=ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
+        veriTabaniKopyala();
         binding.buttonBasla.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), QuizActivity.class));
         });
+    }
+
+
+    public void veriTabaniKopyala(){
+        DatabaseCopyHelper helper=new DatabaseCopyHelper(this);
+
+        try {
+            helper.createDataBase();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        helper.openDataBase();
     }
 }
